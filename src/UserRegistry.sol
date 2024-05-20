@@ -8,7 +8,7 @@ import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
  *
  * Enables decoupling of wallets with users in the Achiev3 protocol.
  */
-contract AchievementUserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
+contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
     mapping(address => uint256) userIds;
 
     string[] displayNames;

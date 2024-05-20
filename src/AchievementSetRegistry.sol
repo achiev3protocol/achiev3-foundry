@@ -13,7 +13,7 @@ contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable {
     }
 
     function ownerOf(tokenId) public view returns (address) {
-        return governorContracts[tokenId].owner();
+        return AchievementSetGovernor(setContracts[tokenId]).owner();
     }
 
     function mintSet(string calldata name, string calldata symbol) public payable {
