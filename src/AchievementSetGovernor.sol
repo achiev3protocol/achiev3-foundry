@@ -12,7 +12,6 @@ struct Achievement {
 
 contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
     // Set-level data
-    string name;
     mapping(address => bool) public canAwardAchievements;
 
     // Achievement-level data
@@ -29,19 +28,18 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
     // Protocol contracts
     address contractRegistry;
 
-    constructor(string memory _name, address _contractRegistry) initializerERC721A initializer public {
-        name = _name;
-        contractRegistry _contractRegistry;
+    constructor(string memory collectionName, string memory collectionSymbol, address _contractRegistry, address owner) initializerERC721A initializer {
+        contractRegistry = _contractRegistry;
 
-        __ERC721A_init(_name, 'EV3SET');
-        __Ownable_init();
+        __ERC721A_init(collectionName, collectionSymbol);
+        __Ownable_init(owner);
     }
 
     function unlockAchievement(uint256 achievementId, address unlockTo) public {
         require(canAwardAchievements[msg.sender], 'Not authorized to award achievements');
 
         // Mint the recipient their achievement NFT
-        _mint(msg.sender, 1);
+        _mint(unlockTo, 1);
 
         // Store the achievement ID that was unlocked
         achievementIds.push(achievementId);
@@ -74,8 +72,8 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
         return achievementCount;
     }
 
-    function tokenURI(tokenId) public view override returns (string memory) {
-        Achievement ach = getAchievement(achievementIds[tokenId]);
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        Achievement memory ach = getAchievement(achievementIds[tokenId]);
 
         return string(abi.encodePacked('data:application/json;base64,', abi.encodePacked('{"name":"', ach.name, '","description":"', ach.description , '","image":"ipfs://', imageCids[0], '/"}')));
     }

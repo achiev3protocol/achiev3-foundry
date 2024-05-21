@@ -8,14 +8,14 @@ contract ContractRegistry is OwnableUpgradeable, IContractRegistry {
     address userRegistryAddress;
 
     function initialize() initializer public {
-        __Ownable_init();
+        __Ownable_init(msg.sender);
     }
 
-    function getSetRegistryAddress() public view override returns (address) {
+    function getSetRegistryAddress() external view returns (address) {
         return setRegistryAddress;
     }
 
-    function getUserRegistryAddress() public view override returns (address) {
+    function getUserRegistryAddress() external view returns (address) {
         return userRegistryAddress;
     }
 

@@ -15,7 +15,7 @@ contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
 
     function initialize() initializerERC721A initializer public {
         __ERC721A_init('Achiev3 Users', 'EV3USERS');
-        __Ownable_init();
+        __Ownable_init(msg.sender);
     }
 
     function mintUser(string calldata displayName) public payable {
@@ -25,12 +25,12 @@ contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
     }
 
     function setDisplayName(uint256 userId, string calldata displayName) public {
-        require(msg.sender == ownerOf, 'AchievementUserRegistry: Not the owner of this user');
+        require(msg.sender == ownerOf(userId), 'AchievementUserRegistry: Not the owner of this user');
 
         displayNames[userId] = displayName;
     }
 
-    function attestToOwnership(uint256 userId) {
+    function attestToOwnership(uint256 userId) public {
         userIds[msg.sender] = userId;
     }
 }
