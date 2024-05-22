@@ -29,6 +29,9 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
         __Ownable_init(owner);
     }
 
+    /**
+     * @dev Unlock a given achievement to a given address. Must be authorized to award achievements.
+     */
     function unlockAchievement(uint256 achievementId, address unlockTo) public {
         require(canAwardAchievements[msg.sender], 'Not authorized to award achievements');
 
@@ -40,7 +43,7 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
     }
 
     /**
-     * Sets whether a given address is allowed to award achievements from this set.
+     * @dev Sets whether a given address is allowed to award achievements from this set.
      */
     function setCanAwardAchievements(address account, bool canAward) public onlyOwner {
         canAwardAchievements[account] = canAward;
@@ -57,6 +60,9 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
         achievementCount++;
     }
 
+    /**
+     * @dev Update an existing achievement in this set.
+     */
     function updateAchievement(uint256 index, string memory name, string memory description, string memory iconCid, string memory imageCid) public onlyOwner {
         names[index] = name;
         descriptions[index] = description;
@@ -64,14 +70,23 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
         imageCids[index] = imageCid;
     }
 
+    /**
+     * @dev Get data about a given achievement by its Id
+     */
     function getAchievement(uint256 index) public view returns (Achievement memory) {
         return Achievement(names[index], descriptions[index], iconCids[index], imageCids[index]);
     }
 
+    /**
+     * @dev Get the total number of achievements in this set.
+     */
     function getAchievementCount() public view returns (uint256) {
         return achievementCount;
     }
 
+    /**
+     * @dev Metadata for unlocked achievement NFTs.
+     */
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         Achievement memory ach = getAchievement(achievementIds[tokenId]);
 
