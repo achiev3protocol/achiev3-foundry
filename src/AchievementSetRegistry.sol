@@ -4,12 +4,13 @@ pragma solidity ^0.8.13;
 import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import './AchievementSetGovernor.sol';
+import './interfaces/IAchievementSetRegistry.sol';
 
 /**
  * @title AchievementSetRegistry
  * @dev Keeps track of all achievement sets in the protocol.
  */
-contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable {
+contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable, IAchievementSetRegistry {
     address[] setContracts;
 
     address contractRegistry;
@@ -29,7 +30,7 @@ contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable {
     /**
      * @dev Mints a new achievement set NFT and creates a new governor contract for it.
      */
-    function mintSet(string calldata name, string calldata symbol) public payable {
+    function mintSet(string calldata name, string calldata symbol) external payable {
         // Mint a new NFT that represents ownership of this achievement set
         _mint(msg.sender, 1);
 
