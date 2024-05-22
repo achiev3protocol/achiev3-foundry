@@ -2,13 +2,7 @@ pragma solidity ^0.8.13;
 
 import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
-
-struct Achievement {
-    string name;
-    string description;
-    string iconCid;
-    string imageCid;
-}
+import './structs/Achievement.sol';
 
 contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
     // Set-level data
@@ -45,10 +39,16 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
         achievementIds.push(achievementId);
     }
 
+    /**
+     * Sets whether a given address is allowed to award achievements from this set.
+     */
     function setCanAwardAchievements(address account, bool canAward) public onlyOwner {
         canAwardAchievements[account] = canAward;
     }
 
+    /**
+     * @dev Add a new achievement to this set.
+     */
     function addAchievement(string memory name, string memory description, string memory iconCid, string memory imageCid) public onlyOwner {
         names.push(name);
         descriptions.push(description);
