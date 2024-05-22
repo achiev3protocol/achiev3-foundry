@@ -6,6 +6,8 @@ import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import './structs/Achievement.sol';
 import './interfaces/IAchievementSetGovernor.sol';
 
+error NotAuthorizedToAwardAchievements();
+
 /**
  * @title AchievementSetGovernor
  * @dev Contract for managing a set of achievements and awarding them to users. New contract minted for each set.
@@ -40,7 +42,9 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
      */
     function unlockAchievement(uint256 achievementId, address unlockTo) external {
         // Ensure the calling address is allowed to award achievements
-        require(canAwardAchievements[msg.sender], 'Not authorized to award achievements');
+        if (!canAwardAchievements[msg.sender]) {
+            revert NotAuthorizedToAwardAchievements();
+        }
 
         // Mint the recipient their achievement NFT
         _mint(unlockTo, 1);

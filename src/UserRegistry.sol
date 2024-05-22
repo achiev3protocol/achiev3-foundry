@@ -4,6 +4,8 @@ pragma solidity ^0.8.13;
 import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 
+error NotAuthorizedToUpdateUser();
+
 /**
  * @title AchievementUserRegistry
  * @dev Tracks users. Enables decoupling of wallets with users in the Achiev3 protocol.
@@ -31,7 +33,9 @@ contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
      * @dev Set a new display name for the given user account.
      */
     function setDisplayName(uint256 userId, string calldata displayName) public {
-        require(msg.sender == ownerOf(userId), 'AchievementUserRegistry: Not the owner of this user');
+        if(msg.sender != ownerOf(userId)) {
+            revert NotAuthorizedToUpdateUser();
+        }
 
         displayNames[userId] = displayName;
     }
