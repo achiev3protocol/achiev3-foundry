@@ -12,8 +12,14 @@ error NotAuthorizedToUpdateUser();
  * @dev Tracks users. Enables decoupling of wallets with users in the Achiev3 protocol.
  */
 contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable, IUserRegistry {
+    /**
+     * @dev Maps wallet addresses to a token/user ID.
+     */
     mapping(address => uint256) userIds;
 
+    /**
+     * @dev Display names for each user.
+     */
     string[] displayNames;
 
     function initialize() initializerERC721A initializer public {

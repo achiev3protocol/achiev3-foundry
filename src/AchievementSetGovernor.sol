@@ -13,21 +13,46 @@ error NotAuthorizedToAwardAchievements();
  * @dev Contract for managing a set of achievements and awarding them to users. New contract minted for each set.
  */
 contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchievementSetGovernor {
-    // Set-level data
+    /**
+     * @dev Mapping of addresses that are allowed to award achievements from this set.
+     */
     mapping(address => bool) public canAwardAchievements;
 
-    // Achievement-level data
+    // Achievement-level data. These are NOT indexed by tokenId.
+
+    /**
+     * @dev Names of the achievements in this set.
+     */
     string[] names;
+
+    /**
+     * @dev Descriptions of the achievements in this set.
+     */
     string[] descriptions;
+
+    /**
+     * @dev IPFS CIDs for the icons of the achievements in this set.
+     */
     string[] iconCids;
+
+    /**
+     * @dev IPFS CIDs for the images of the achievements in this set.
+     */
     string[] imageCids;
 
+    /**
+     * @dev Total number of achievements in this set. Separate from the number of unlocks, which is represented by totalSupply()
+     */
     uint256 achievementCount = 0;
 
-    // Achievement unlock-level data
+    /**
+    * @dev Maps tokenIds (unlocks) to achievementIds
+    */
     uint256[] achievementIds;
 
-    // Protocol contracts
+    /**
+     * @dev Smart contract that tracks the canonical addresses of other contracts in the protocol.
+     */
     address contractRegistry;
 
     constructor(string memory collectionName, string memory collectionSymbol, address _contractRegistry, address owner) initializerERC721A initializer {
