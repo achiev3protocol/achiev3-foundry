@@ -4,12 +4,13 @@ pragma solidity ^0.8.13;
 import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import './structs/Achievement.sol';
+import './interfaces/IAchievementSetGovernor.sol';
 
 /**
  * @title AchievementSetGovernor
  * @dev Contract for managing a set of achievements and awarding them to users. New contract minted for each set.
  */
-contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
+contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchievementSetGovernor {
     // Set-level data
     mapping(address => bool) public canAwardAchievements;
 
@@ -37,7 +38,7 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
     /**
      * @dev Unlock a given achievement to a given address. Must be authorized to award achievements.
      */
-    function unlockAchievement(uint256 achievementId, address unlockTo) public {
+    function unlockAchievement(uint256 achievementId, address unlockTo) external {
         require(canAwardAchievements[msg.sender], 'Not authorized to award achievements');
 
         // Mint the recipient their achievement NFT
@@ -50,7 +51,7 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
     /**
      * @dev Sets whether a given address is allowed to award achievements from this set.
      */
-    function setCanAwardAchievements(address account, bool canAward) public onlyOwner {
+    function setCanAwardAchievements(address account, bool canAward) external onlyOwner {
         canAwardAchievements[account] = canAward;
     }
 
