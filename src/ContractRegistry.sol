@@ -4,6 +4,10 @@ pragma solidity ^0.8.13;
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import './interfaces/IContractRegistry.sol';
 
+/**
+ * @title ContractRegistry
+ * @dev Contract for managing the canonical addresses of other contracts in the protocol.
+ */
 contract ContractRegistry is OwnableUpgradeable, IContractRegistry {
     address setRegistryAddress;
     address userRegistryAddress;
