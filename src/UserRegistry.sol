@@ -18,18 +18,27 @@ contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
         __Ownable_init(msg.sender);
     }
 
+    /**
+     * @dev Mints a new user NFT and associates it with the caller.
+     */
     function mintUser(string calldata displayName) public payable {
         _mint(msg.sender, 1);
 
         displayNames.push(displayName);
     }
 
+    /**
+     * @dev Set a new display name for the given user account.
+     */
     function setDisplayName(uint256 userId, string calldata displayName) public {
         require(msg.sender == ownerOf(userId), 'AchievementUserRegistry: Not the owner of this user');
 
         displayNames[userId] = displayName;
     }
 
+    /**
+     * @dev Attests that a given wallet is connected to a given user.
+     */
     function attestToOwnership(uint256 userId) public {
         userIds[msg.sender] = userId;
     }
