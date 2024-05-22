@@ -1,9 +1,14 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
 import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import './structs/Achievement.sol';
 
+/**
+ * @title AchievementSetGovernor
+ * @dev Contract for managing a set of achievements and awarding them to users. New contract minted for each set.
+ */
 contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable {
     // Set-level data
     mapping(address => bool) public canAwardAchievements;

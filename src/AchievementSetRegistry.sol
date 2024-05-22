@@ -1,9 +1,14 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
 import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import './AchievementSetGovernor.sol';
 
+/**
+ * @title AchievementSetRegistry
+ * @dev Keeps track of all achievement sets in the protocol.
+ */
 contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable {
     address[] setContracts;
 
@@ -14,10 +19,16 @@ contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable {
         __Ownable_init(msg.sender);
     }
 
+    /**
+    * @dev Returns the address of the governor contract for a given set.
+    */
     function ownerOf(uint256 tokenId) public view override returns (address) {
         return AchievementSetGovernor(setContracts[tokenId]).owner();
     }
 
+    /**
+     * @dev Mints a new achievement set NFT and creates a new governor contract for it.
+     */
     function mintSet(string calldata name, string calldata symbol) public payable {
         // Mint a new NFT that represents ownership of this achievement set
         _mint(msg.sender, 1);
