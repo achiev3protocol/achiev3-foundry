@@ -9,26 +9,18 @@ import './interfaces/IContractRegistry.sol';
  * @dev Contract for managing the canonical addresses of other contracts in the protocol.
  */
 contract ContractRegistry is OwnableUpgradeable, IContractRegistry {
-    address setRegistryAddress;
-    address userRegistryAddress;
+    address public setRegistryAddress;
+    address public userRegistryAddress;
 
     function initialize() initializer public {
         __Ownable_init(msg.sender);
     }
 
-    function getSetRegistryAddress() external view returns (address) {
-        return setRegistryAddress;
-    }
-
-    function getUserRegistryAddress() external view returns (address) {
-        return userRegistryAddress;
-    }
-
-    function setSetRegistryAddress(address _setRegistryAddress) public onlyOwner {
+    function setSetRegistryAddress(address _setRegistryAddress) external onlyOwner {
         setRegistryAddress = _setRegistryAddress;
     }
 
-    function setUserRegistryAddress(address _userRegistryAddress) public onlyOwner {
+    function setUserRegistryAddress(address _userRegistryAddress) external onlyOwner {
         userRegistryAddress = _userRegistryAddress;
     }
 }
