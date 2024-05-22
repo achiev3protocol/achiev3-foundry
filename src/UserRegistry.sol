@@ -12,7 +12,6 @@ contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
     mapping(address => uint256) userIds;
 
     string[] displayNames;
-    uint256 public userCount;
 
     function initialize() initializerERC721A initializer public {
         __ERC721A_init('Achiev3 Users', 'EV3USERS');
@@ -26,8 +25,6 @@ contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
         _mint(msg.sender, 1);
 
         displayNames.push(displayName);
-
-        userCount++;
     }
 
     /**

@@ -13,12 +13,12 @@ contract UserRegistryTest is Test {
 
     function test_MintUser() public {
         registry.mintUser("Test");
-        assertEq(registry.userCount(), 1);
+        assertEq(registry.totalSupply(), 1);
 
         registry.mintUser("Test");
-        assertEq(registry.userCount(), 2);
+        assertEq(registry.totalSupply(), 2);
 
         registry.mintUser("Test");
-        assertEq(registry.userCount(), 3);
+        assertEq(registry.totalSupply(), 3);
     }
 }
