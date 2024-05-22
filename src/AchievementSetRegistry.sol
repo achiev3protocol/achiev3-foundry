@@ -11,8 +11,14 @@ import './interfaces/IAchievementSetRegistry.sol';
  * @dev Keeps track of all achievement sets in the protocol.
  */
 contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable, IAchievementSetRegistry {
+    /**
+     * @dev Array of addresses of all achievement set governor contracts in the protocol.
+     */
     address[] setContracts;
 
+    /**
+     * @dev Smart contract that tracks the canonical addresses of other contracts in the protocol.
+     */
     address contractRegistry;
 
     function initialize() initializerERC721A initializer public {
