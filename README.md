@@ -10,6 +10,8 @@ Creators wishing to add achievements to the protocol can mint a new set with **A
 
 **UserRegistry** enables pointing multiple addresses at a single user.
 
+**EV3** is a governance token whose tokenomics are TBD.
+
 ## Maintainers
 
 * [ens0.eth](https://github.com/existentialenso)

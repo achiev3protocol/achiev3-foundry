@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import './interfaces/IUserRegistry.sol';
 
 error NotAuthorizedToUpdateUser();
 
@@ -10,7 +11,7 @@ error NotAuthorizedToUpdateUser();
  * @title AchievementUserRegistry
  * @dev Tracks users. Enables decoupling of wallets with users in the Achiev3 protocol.
  */
-contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
+contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable, IUserRegistry {
     mapping(address => uint256) userIds;
 
     string[] displayNames;
@@ -23,7 +24,7 @@ contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
     /**
      * @dev Mints a new user NFT and associates it with the caller.
      */
-    function mintUser(string calldata displayName) public payable {
+    function mintUser(string calldata displayName) external payable {
         _mint(msg.sender, 1);
 
         displayNames.push(displayName);
@@ -32,7 +33,7 @@ contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable {
     /**
      * @dev Set a new display name for the given user account.
      */
-    function setDisplayName(uint256 userId, string calldata displayName) public {
+    function setDisplayName(uint256 userId, string calldata displayName) external {
         if(msg.sender != ownerOf(userId)) {
             revert NotAuthorizedToUpdateUser();
         }
