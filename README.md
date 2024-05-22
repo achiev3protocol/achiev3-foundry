@@ -13,3 +13,7 @@ Creators wishing to add achievements to the protocol can mint a new set with **A
 ## Maintainers
 
 * [ens0.eth](https://github.com/existentialenso)
+
+## Socials
+
+* [X](https://x.com/achiev3protocol)
