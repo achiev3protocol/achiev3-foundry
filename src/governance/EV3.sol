@@ -19,7 +19,7 @@ import {Nonces} from "@openzeppelin/contracts/utils/Nonces.sol";
 
 /**
  * @title EV3
- * @dev Governance token for the Achiev3 protocol.
+ * @dev ERC20 governance token for the Achiev3 protocol.
  */
 contract EV3 is ERC20, ERC20Permit, ERC20Votes {
     constructor() ERC20('EV3', 'EV3') ERC20Permit("EV3") {}
