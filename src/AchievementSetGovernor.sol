@@ -29,25 +29,23 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
      */
     mapping(address => bool) public canAwardAchievements;
 
-    // Achievement-level data. These are NOT indexed by tokenId.
-
     /**
-     * @dev Names of the achievements in this set.
+     * @dev Names of the achievements in this set, indexed by achievementId (not tokenId).
      */
     string[] names;
 
     /**
-     * @dev Descriptions of the achievements in this set.
+     * @dev Descriptions of the achievements in this set, indexed by achievementId (not tokenId).
      */
     string[] descriptions;
 
     /**
-     * @dev IPFS CIDs for the icons of the achievements in this set.
+     * @dev IPFS CIDs for the icons of the achievements in this set, indexed by achievementId (not tokenId).
      */
     string[] iconCids;
 
     /**
-     * @dev IPFS CIDs for the images of the achievements in this set.
+     * @dev IPFS CIDs for the images of the achievements in this set, indexed by achievementId (not tokenId).
      */
     string[] imageCids;
 
@@ -104,7 +102,9 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
         descriptions.push(description);
         iconCids.push(iconCid);
         imageCids.push(imageCid);
-        achievementCount++;
+
+        // Need to track # of achievements separately from # of unlocks
+        ++achievementCount;
     }
 
     /**
@@ -123,6 +123,20 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
     function getAchievement(uint256 index) public view returns (Achievement memory) {
         return Achievement(names[index], descriptions[index], iconCids[index], imageCids[index]);
     }
+
+    /**
+     * @dev Get all achievements in this set
+     */
+    function getAchievements() public view returns(Achievement[] memory) {
+        Achievement[] memory achievements = new Achievement[](achievementCount);
+
+        for (uint256 i = 0; i < achievementCount; i++) {
+            achievements[i] = getAchievement(i);
+        }
+
+        return achievements;
+    }
+
 
     /**
      * @dev Get the total number of achievements in this set.
