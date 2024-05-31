@@ -60,10 +60,18 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
     uint256[] achievementIds;
 
     /**
+     * @dev Tracks the time that achievements were unlcoked
+     */
+    uint256[] unlockTimestamps;
+
+    /**
      * @dev Smart contract that tracks the canonical addresses of other contracts in the protocol.
      */
     address contractRegistry;
 
+    /**
+     * @dev Constructor for the AchievementSetGovernor contract.
+     */
     constructor(string memory collectionName, string memory collectionSymbol, address _contractRegistry, address owner) initializerERC721A initializer {
         contractRegistry = _contractRegistry;
 
@@ -85,6 +93,9 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
 
         // Store the achievement ID that was unlocked
         achievementIds.push(achievementId);
+
+        // Store the timestamp of the unlock
+        unlockTimestamps.push(block.timestamp);
     }
 
     /**
