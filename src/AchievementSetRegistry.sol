@@ -17,6 +17,8 @@ import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import './AchievementSetGovernor.sol';
 import './interfaces/IAchievementSetRegistry.sol';
 
+error AchievementSetRegistry__InsufficientFunds();
+
 /**
  * @title AchievementSetRegistry
  * @dev Keeps track of all achievement sets in the protocol.
@@ -31,6 +33,11 @@ contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable, IAchi
      * @dev Smart contract that tracks the canonical addresses of other contracts in the protocol.
      */
     address contractRegistry;
+
+    /**
+     * @dev The fee to register a new achievement set.
+     */
+    uint256 registrationFee = 0.000099 ether;
 
     function initialize() initializerERC721A initializer public {
         __ERC721A_init('Achiev3 Sets', 'EV3SETS');
@@ -48,6 +55,10 @@ contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable, IAchi
      * @dev Mints a new achievement set NFT and creates a new governor contract for it.
      */
     function mintSet(string calldata name, string calldata symbol) external payable {
+        if (msg.value < registrationFee) {
+            revert AchievementSetRegistry__InsufficientFunds();
+        }
+
         // Mint a new NFT that represents ownership of this achievement set
         _mint(msg.sender, 1);
 
@@ -61,5 +72,9 @@ contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable, IAchi
 
         // Store the address of our newly created governor
         setContracts.push(address(governor));
+    }
+
+    function setRegistrationFee(uint256 _registrationFee) external {
+        registrationFee = _registrationFee;
     }
 }
