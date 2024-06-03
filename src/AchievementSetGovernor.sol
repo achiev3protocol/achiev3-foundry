@@ -18,6 +18,12 @@ import './structs/Achievement.sol';
 import './interfaces/IAchievementSetGovernor.sol';
 
 error NotAuthorizedToAwardAchievements();
+error AchievementAlreadyUnlocked();
+
+struct UserAchievementPair {
+    address user;
+    uint256 achievementId;
+}
 
 /**
  * @title AchievementSetGovernor
@@ -74,6 +80,8 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
      */
     address contractRegistry;
 
+    mapping(UserAchievementPair => bool) public isUnlocked;
+
     /**
      * @dev Constructor for the AchievementSetGovernor contract.
      */
@@ -91,6 +99,10 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
         // Ensure the calling address is allowed to award achievements
         if (!canAwardAchievements[msg.sender]) {
             revert NotAuthorizedToAwardAchievements();
+        }
+
+        if(isUnlocked[UserAchievementPair(unlockTo, achievementId)]) {
+            revert AchievementAlreadyUnlocked();
         }
 
         // Mint the recipient their achievement NFT
