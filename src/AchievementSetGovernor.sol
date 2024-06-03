@@ -60,6 +60,11 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
     uint256[] achievementIds;
 
     /**
+     * @dev Maps tokenIds (unlocks) to the address that unlocked them
+     */
+    address[] unlockedBy;
+
+    /**
      * @dev Tracks the time that achievements were unlcoked
      */
     uint256[] unlockTimestamps;
@@ -93,6 +98,9 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
 
         // Store the achievement ID that was unlocked
         achievementIds.push(achievementId);
+
+        // Store the address that unlocked the achievement
+        unlockedBy.push(unlockTo);
 
         // Store the timestamp of the unlock
         unlockTimestamps.push(block.timestamp);
