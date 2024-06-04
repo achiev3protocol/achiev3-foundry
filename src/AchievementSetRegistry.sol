@@ -37,7 +37,7 @@ contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable, IAchi
     /**
      * @dev The fee to register a new achievement set.
      */
-    uint256 registrationFee = 0.000099 ether;
+    uint256 public registrationFee = 0.000099 ether;
 
     function initialize() initializerERC721A initializer public {
         __ERC721A_init('Achiev3 Sets', 'EV3SETS');

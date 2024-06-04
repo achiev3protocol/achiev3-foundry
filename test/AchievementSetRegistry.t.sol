@@ -23,7 +23,9 @@ contract AchievementSetRegistryTest is Test {
     }
 
     function test_MintSet() public {
-        registry.mintSet("Test", "TEST");
+        uint256 mintFee = registry.registrationFee();
+
+        registry.mintSet{value: mintFee}("Test", "TEST");
         assertEq(registry.totalSupply(), 1);
     }
 }

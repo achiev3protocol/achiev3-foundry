@@ -20,11 +20,6 @@ import './interfaces/IAchievementSetGovernor.sol';
 error NotAuthorizedToAwardAchievements();
 error AchievementAlreadyUnlocked();
 
-struct UserAchievementPair {
-    address user;
-    uint256 achievementId;
-}
-
 /**
  * @title AchievementSetGovernor
  * @dev Contract for managing a set of achievements and awarding them to users. New contract minted for each set.
@@ -80,7 +75,7 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
      */
     address contractRegistry;
 
-    mapping(UserAchievementPair => bool) public isUnlocked;
+    mapping(address => bool[]) public isUnlocked;
 
     /**
      * @dev Constructor for the AchievementSetGovernor contract.
@@ -101,7 +96,7 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
             revert NotAuthorizedToAwardAchievements();
         }
 
-        if(isUnlocked[UserAchievementPair(unlockTo, achievementId)]) {
+        if(isUnlocked[unlockTo][achievementId]) {
             revert AchievementAlreadyUnlocked();
         }
 
