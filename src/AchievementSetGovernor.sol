@@ -111,6 +111,9 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
 
         // Store the timestamp of the unlock
         unlockTimestamps.push(block.timestamp);
+
+        // Mark this address as having unlocked this achievement
+        isUnlocked[unlockTo][achievementId] = true;
     }
 
     /**
