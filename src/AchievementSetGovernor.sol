@@ -19,6 +19,7 @@ import './interfaces/IAchievementSetGovernor.sol';
 
 error NotAuthorizedToAwardAchievements();
 error AchievementAlreadyUnlocked();
+error InsufficientPoints();
 
 /**
  * @title AchievementSetGovernor
@@ -51,6 +52,16 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
     string[] imageCids;
 
     /**
+     * @dev Point values for the achievements in this set, indexed by achievementId (not tokenId).
+     */
+    uint16[] pointValues;
+
+    /**
+     * @dev Total points remaining that have been allocated to this set.
+     */
+    uint16 pointAllocationRemaining = 1000;
+
+    /**
      * @dev Total number of achievements in this set. Separate from the number of unlocks, which is represented by totalSupply()
      */
     uint256 achievementCount = 0;
@@ -75,6 +86,9 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
      */
     address contractRegistry;
 
+    /**
+     * @dev Mapping of addresses to the achievements they have unlocked.
+     */
     mapping(address => bool[]) public isUnlocked;
 
     /**
@@ -134,6 +148,23 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
 
         // Need to track # of achievements separately from # of unlocks
         ++achievementCount;
+    }
+
+    /**
+     * @dev Allocate points to a given achievement achievement.
+     */
+    function allocatePoints(uint256 achievementId, uint16 points) public onlyOwner {
+        if(points > pointAllocationRemaining) {
+            revert InsufficientPoints();
+        }
+
+        pointAllocationRemaining -= points;
+
+        if(!pointValues[achievementId]) {
+            pointValues[achievementId] = points;
+        } else {
+            pointValues[achievementId] += points;
+        }
     }
 
     /**
