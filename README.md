@@ -1,5 +1,7 @@
 # achiev3 - foundry
 
+**WARNING**: These are draft contracts that have not been audited. Use at your own risk.
+
 Smart contracts for the achiev3 protocol, a decentralized, permissionless, open source way of defining and awarding achievements for users to unlock with a myriad of flexible features.
 
 The official implementation will be launched on Base in summer 2024.
