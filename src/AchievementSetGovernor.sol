@@ -87,6 +87,11 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
     address contractRegistry;
 
     /**
+     * @dev IPFS CID for the icon of the collection
+     */
+    string public collectionIconCid;
+
+    /**
      * @dev Mapping of addresses to the achievements they have unlocked.
      */
     mapping(address => bool[]) public isUnlocked;
@@ -99,6 +104,10 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
 
         __ERC721A_init(collectionName, collectionSymbol);
         __Ownable_init(owner);
+    }
+
+    function setCollectionIconCid(string memory cid) public onlyOwner {
+        collectionIconCid = cid;
     }
 
     /**
