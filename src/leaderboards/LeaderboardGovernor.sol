@@ -14,6 +14,7 @@ pragma solidity ^0.8.13;
 
 import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import '../structs/LeaderboardScore.sol';
 
 error NotAuthorizedToAwardScores();
 error ScoreWorseThanPrevious();
@@ -28,10 +29,24 @@ contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable {
      */
     mapping(address => bool) public canUpdateScores;
 
+    /**
+     * @dev Mapping of addresses to the token ID of their high score NFT
+     */
     mapping(address => uint256) public tokenIds;
 
+    /**
+     * @dev Mapping of addresses to their scores
+     */
+    mapping(uint256 => address) public players;
+
+    /**
+     * @dev Mapping of token IDs to their scores
+     */
     mapping(uint256 => uint256) public scores;
 
+    /**
+     * @dev Whether the leaderboard is descending (true) or ascending (false)
+     */
     bool public isDescending = true;
 
     /**
@@ -77,6 +92,7 @@ contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable {
             _mint(player, 1);
 
             tokenIds[player] = _totalMinted();
+            players[tokenIds[player]] = player;
 
             scoreCount++;
         }
@@ -87,7 +103,7 @@ contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable {
         } else if(scores[tokenIds[player]] < score && !isDescending) {
             revert ScoreWorseThanPrevious();
         }
-        
+
         // Update the stored score
         scores[tokenIds[player]] = score;
     }
@@ -106,11 +122,17 @@ contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable {
         return scoreCount;
     }
 
+    function getLeaderboardScoreByTokenId(uint256 tokenId) public view returns (LeaderboardScore) {
+        address player = players[tokenId];
+
+        return LeaderboardScore(player, scores[tokenIds[player]]);
+    }
+
     /**
      * @dev Metadata for leaderboard score NFTs.
      */
     /*function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        Achievement memory ach = getAchievement(achievementIds[tokenId]);
+        LeaderboardScore memory score = getLeaderboardScoreByTokenId(address(tokenId));
 
         return string(abi.encodePacked('data:application/json;base64,', abi.encodePacked('{"name":"', ach.name, '","description":"', ach.description , '","image":"ipfs://', imageCids[0], '/"}')));
     }*/
