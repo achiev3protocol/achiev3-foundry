@@ -160,7 +160,7 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
     }
 
     /**
-     * @dev Allocate points to a given achievement achievement.
+     * @dev Allocate points to a given achievement.
      */
     function allocatePoints(uint256 achievementId, uint16 points) public onlyOwner {
         if(points > pointAllocationRemaining) {
