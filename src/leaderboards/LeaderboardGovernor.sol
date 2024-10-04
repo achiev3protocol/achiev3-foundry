@@ -122,7 +122,7 @@ contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable {
         return scoreCount;
     }
 
-    function getLeaderboardScoreByTokenId(uint256 tokenId) public view returns (LeaderboardScore) {
+    function getLeaderboardScoreByTokenId(uint256 tokenId) public view returns (LeaderboardScore memory) {
         address player = players[tokenId];
 
         return LeaderboardScore(player, scores[tokenIds[player]]);
