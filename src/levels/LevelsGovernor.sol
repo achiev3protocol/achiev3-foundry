@@ -14,8 +14,9 @@ pragma solidity ^0.8.13;
 
 import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
+import '../interfaces/ILevelsGovernor.sol';
 
-contract LevelsGovernor is ERC721AUpgradeable, OwnableUpgradeable {
+contract LevelsGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILevelsGovernor {
     /**
      * @dev Mapping of addresses that are allowed to award xp.
      */
@@ -30,6 +31,12 @@ contract LevelsGovernor is ERC721AUpgradeable, OwnableUpgradeable {
      * @dev Mapping of addresses to their token IDs.
      */
     mapping(address => uint256) public tokenIds;
+
+    /**
+     * @dev Mapping of token IDs to their corresponding addresses.
+     */
+    mapping(uint256 => address) public users;
+
 
     /**
      * @dev IPFS CID for the icon of the leaderboard
@@ -63,10 +70,19 @@ contract LevelsGovernor is ERC721AUpgradeable, OwnableUpgradeable {
         if (!canAwardXp[msg.sender]) revert NotAuthorized();
 
         if(tokenIds[user] == 0) {
+            // Mint a Levels NFT for the user
             _mint(user, 1);
+
+            // Set the token ID for the user
             tokenIds[user] = _totalMinted();
+
+            // Set the user for the token ID
+            users[tokenIds[user]] = user;
+
+            // Set the xp for the user
             walletXp[user] = amount;
         } else {
+            // Update the xp for the user
             walletXp[user] += amount;
         }
     }
