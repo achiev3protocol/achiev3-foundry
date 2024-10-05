@@ -43,10 +43,33 @@ contract LevelsGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILevelsGovern
      */
     string public leaderboardIconCid;
 
+    /**
+     * @dev Address of the registry that tracks smart contracts.
+     */
     address public contractRegistry;
 
-    constructor(string memory collectionName, string memory collectionSymbol, address _contractRegistry, address owner) initializerERC721A initializer {
+    /**
+     * @dev Maximum level a user can reach.
+     */
+    uint256 public maxLevel;
+
+    /**
+     * @dev XP required to level up the first time.
+     */
+    uint256 public initialLevelUpXp;
+
+    /**
+     * @dev Multiplier for xp calculation.
+     */
+    uint256 public xpMultiplier;
+
+
+    constructor(string memory collectionName, string memory collectionSymbol, address _contractRegistry, address owner, uint256 _maxLevel, uint256 _initialLevelUpXp, uint256 _xpMultiplier) initializerERC721A initializer {
         contractRegistry = _contractRegistry;
+
+        maxLevel = _maxLevel;
+        initialLevelUpXp = _initialLevelUpXp;
+        xpMultiplier = _xpMultiplier;
 
         __ERC721A_init(collectionName, collectionSymbol);
         __Ownable_init(owner);
