@@ -15,6 +15,7 @@ pragma solidity ^0.8.13;
 import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import '../structs/LeaderboardScore.sol';
+import '../interfaces/ILeaderboardGovernor.sol';
 
 error NotAuthorizedToAwardScores();
 error ScoreWorseThanPrevious();
@@ -23,7 +24,7 @@ error ScoreWorseThanPrevious();
  * @title AchievementSetGovernor
  * @dev Contract for managing a leaderboard
  */
-contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable {
+contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILeaderboardGovernor {
     /**
      * @dev Mapping of addresses that are allowed to award achievements from this set.
      */
