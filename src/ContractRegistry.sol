@@ -25,6 +25,10 @@ contract ContractRegistry is OwnableUpgradeable, IContractRegistry {
      */
     address public setRegistryAddress;
 
+    address public leaderboardRegistryAddress;
+
+    address public levelsRegistryAddress;
+
     /**
      * @dev Address of the current version of the UserRegistry contract.
      */
@@ -39,6 +43,20 @@ contract ContractRegistry is OwnableUpgradeable, IContractRegistry {
      */
     function setSetRegistryAddress(address _setRegistryAddress) external onlyOwner {
         setRegistryAddress = _setRegistryAddress;
+    }
+
+    /**
+     * @dev Sets the address of the current version of the LeaderboardRegistry contract.
+     */
+    function setLeaderboardRegistryAddress(address _leaderboardRegistryAddress) external onlyOwner {
+        leaderboardRegistryAddress = _leaderboardRegistryAddress;
+    }
+
+    /**
+     * @dev Sets the address of the current version of the LevelsRegistry contract.
+     */
+    function setLevelsRegistryAddress(address _levelsRegistryAddress) external onlyOwner {
+        levelsRegistryAddress = _levelsRegistryAddress;
     }
 
     /**
