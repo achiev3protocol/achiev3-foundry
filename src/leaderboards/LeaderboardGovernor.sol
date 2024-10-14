@@ -75,7 +75,10 @@ contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILeaderb
         __Ownable_init(owner);
     }
 
-    function setCollectionIconCid(string memory cid) public onlyOwner {
+    /**
+     * @dev Set the icon for the leaderboard
+     */
+    function setLeaderboardIconCid(string memory cid) public onlyOwner {
         leaderboardIconCid = cid;
     }
 
@@ -90,11 +93,14 @@ contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILeaderb
 
         // Ensure they have a high score NFT
         if(tokenIds[player] == 0) {
+            // Mint a new NFT for the player
             _mint(player, 1);
 
+            // Set the token ID for the player
             tokenIds[player] = _totalMinted();
             players[tokenIds[player]] = player;
 
+            // Increment the counter of scores in this leaderboard
             scoreCount++;
         }
 
@@ -123,6 +129,9 @@ contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILeaderb
         return scoreCount;
     }
 
+    /**
+     * @dev Get the leaderboard score for a given token ID.
+     */
     function getLeaderboardScoreByTokenId(uint256 tokenId) public view returns (LeaderboardScore memory) {
         address player = players[tokenId];
 

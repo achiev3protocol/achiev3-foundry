@@ -66,6 +66,9 @@ contract LeaderboardRegistry is ERC721AUpgradeable, OwnableUpgradeable {
         setContracts.push(address(governor));
     }
 
+    /**
+     * @dev Set the registration fee for a new leaderboard.
+     */
     function setRegistrationFee(uint256 _registrationFee) external {
         registrationFee = _registrationFee;
     }
