@@ -75,6 +75,8 @@ contract LevelsGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILevelsGovern
 
         __ERC721A_init(collectionName, collectionSymbol);
         __Ownable_init(owner);
+
+        canAwardXp[owner] = true;
     }
 
     /**
@@ -110,6 +112,10 @@ contract LevelsGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILevelsGovern
             // Update the xp for the user
             walletXp[user] += amount;
         }
+    }
+
+    function balanceOf(address user) public override view returns (uint256) {
+        return walletXp[user];
     }
 }
 
