@@ -16,6 +16,8 @@ import 'erc721a-upgradeable/contracts/ERC721AUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol';
 import '../interfaces/ILevelsGovernor.sol';
 
+error LevelsGovernor__NotAuthorized();
+
 contract LevelsGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILevelsGovernor {
     /**
      * @dev Mapping of addresses that are allowed to award xp.
@@ -90,7 +92,7 @@ contract LevelsGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILevelsGovern
      * @param amount The amount of xp to award.
      */
     function awardXp(address user, uint256 amount) public {
-        if (!canAwardXp[msg.sender]) revert NotAuthorized();
+        if (!canAwardXp[msg.sender]) revert LevelsGovernor__NotAuthorized();
 
         if(tokenIds[user] == 0) {
             // Mint a Levels NFT for the user

@@ -169,11 +169,7 @@ contract AchievementSetGovernor is ERC721AUpgradeable, OwnableUpgradeable, IAchi
 
         pointAllocationRemaining -= points;
 
-        if(!pointValues[achievementId]) {
-            pointValues[achievementId] = points;
-        } else {
-            pointValues[achievementId] += points;
-        }
+        pointValues[achievementId] += points;
     }
 
     /**

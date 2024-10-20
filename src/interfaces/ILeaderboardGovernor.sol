@@ -16,8 +16,8 @@ import '../structs/LeaderboardScore.sol';
 
 interface ILeaderboardGovernor {
     function recordScore(uint256 score, address player) external;
-    function setCanRecordScores(address user, bool canRecord) external;
-    function setCollectionIconCid(string memory cid) external;
+    function setCanUpdateScores(address user, bool canRecord) external;
+    function setLeaderboardIconCid(string memory cid) external;
     function getScoreCount() external view returns (uint256);
     function getLeaderboardScoreByTokenId(uint256 tokenId) external view returns (LeaderboardScore memory);
 }

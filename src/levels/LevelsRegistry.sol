@@ -46,7 +46,7 @@ contract LevelsRegistry is ERC721AUpgradeable, OwnableUpgradeable {
     /**
      * @dev Mints a new achievement set NFT and creates a new governor contract for it.
      */
-    function mintSet(string calldata name, string calldata symbol) external payable {
+    function mintSet(string calldata name, string calldata symbol, uint256 _maxLevel, uint256 _initialLevelUpXp, uint256 _xpMultiplier) external payable {
         if (msg.value < registrationFee) {
             revert LevelsRegistry__InsufficientFunds();
         }
@@ -59,7 +59,10 @@ contract LevelsRegistry is ERC721AUpgradeable, OwnableUpgradeable {
             name, 
             symbol,
             contractRegistry, 
-            msg.sender
+            msg.sender,
+            _maxLevel,
+            _initialLevelUpXp,
+            _xpMultiplier
         );
 
         // Store the address of our newly created governor
