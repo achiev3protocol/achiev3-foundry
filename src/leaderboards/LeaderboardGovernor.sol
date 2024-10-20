@@ -73,6 +73,8 @@ contract LeaderboardGovernor is ERC721AUpgradeable, OwnableUpgradeable, ILeaderb
 
         __ERC721A_init(collectionName, collectionSymbol);
         __Ownable_init(owner);
+
+        canUpdateScores[owner] = true;
     }
 
     /**
