@@ -38,9 +38,11 @@ contract LevelsRegistry is ERC721AUpgradeable, OwnableUpgradeable {
      */
     uint256 public registrationFee = 0.000099 ether;
 
-    function initialize() initializerERC721A initializer public {
+    function initialize(address _contractRegistry) initializerERC721A initializer public {
         __ERC721A_init('Levels', 'EV3LVL');
         __Ownable_init(msg.sender);
+
+        contractRegistry = _contractRegistry;
     }
 
     /**

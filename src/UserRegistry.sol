@@ -33,9 +33,11 @@ contract UserRegistry is ERC721AUpgradeable, OwnableUpgradeable, IUserRegistry {
      */
     string[] displayNames;
 
-    function initialize() initializerERC721A initializer public {
+    function initialize(address _contractRegistry) initializerERC721A initializer public {
         __ERC721A_init('Achiev3 Users', 'EV3USERS');
         __Ownable_init(msg.sender);
+
+        contractRegistry = _contractRegistry;
     }
 
     /**

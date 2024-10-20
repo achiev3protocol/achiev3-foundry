@@ -39,9 +39,11 @@ contract AchievementSetRegistry is ERC721AUpgradeable, OwnableUpgradeable, IAchi
      */
     uint256 public registrationFee = 0.000099 ether;
 
-    function initialize() initializerERC721A initializer public {
+    function initialize(address _contractRegistry) initializerERC721A initializer public {
         __ERC721A_init('Achiev3 Sets', 'EV3SETS');
         __Ownable_init(msg.sender);
+        
+        contractRegistry = _contractRegistry;
     }
 
     /**
